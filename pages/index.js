@@ -34,13 +34,20 @@ class Home extends Component {
     socket.emit ('set users', (this.state.userName))
     
     socket.on ('get users', (data) => {
+      console.log(data)
       this.setState({usersList: data})
+      console.log(this.state.usersList)
     })
 
     socket.on('get message',(data) => {
       console.log(data.userName)
       this.setState({messages:[...this.state.messages,{message:data.message,userName:data.userName}]})
       console.log(this.state)
+    })
+
+    socket.on('user disconnected',(data) => {
+      let newList=this.state.usersList.filter(users=>users.id != data)
+      this.setState({usersList:newList})
     })
   }
 
@@ -56,8 +63,8 @@ class Home extends Component {
     return (
       <div className = {styles.container}>
         <div className = 'greeting'><h2>hello {this.state.userName}</h2></div>
-        <div className = 'users'>{this.state.usersList.map(user => {
-          return (<p>{user}</p>)
+        <div className = 'users'>{this.state.usersList.map((user) => {
+          return (console.log(user),<p>{user.name}</p>)
         })}</div>
         {this.state.messages.map((el) => {
           return (<Message message = {el.message} userName = {el.userName}/>)

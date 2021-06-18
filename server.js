@@ -9,7 +9,7 @@ const io = new Server(server, {
   }
 })
 
-usersList = [];
+let usersList = [];
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -18,27 +18,31 @@ app.get('/', (req, res) => {
 app.use(express.static(__dirname))
 
 io.on('connection', (socket) => {
-  socket.emit('get users', (usersList))
+
+let id = socket.id
 
   socket.on("send message", (data) => {
     console.log(data)
-
     io.emit("get message", {
       userName:data.userName,
       message:data.message,
     })
   })
 
-  socket.on('set users', (data) => {
-    console.log(data)
-      usersList.push(data)
-      io.emit('get users',[usersList])
-    })
-    
-  console.log(socket.id)
+  socket.on('set users', (name) => {
+    console.log(name)
+      usersList.push({name,id})
+      console.log(usersList)
+      io.emit('get users',usersList)
+  })
+
+  socket.on('disconnect', () => {
+    console.log('loh')
+    io.emit('user disconnected', (socket.id))
+  })
+
+  console.log(id)
 });
-
-
 
 server.listen(3001, () => {
   console.log('listening on *:3001');
