@@ -1,0 +1,23 @@
+.container{
+    border: 2px solid green;
+    height: 95vh;
+    margin: 5px;
+}
+.greeting{
+    border-bottom: 2px solid green;
+}
+.main{
+    display: flex;
+    height: 100%;
+    overflow: scroll;
+}
+.chat__users{
+    border-right: 2px solid green;
+    padding-right: 50px;
+    padding-left: 10px;
+    height: 100%;
+}
+
+.chat__users p{
+    margin: 0;
+}
