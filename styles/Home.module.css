@@ -1,23 +1,29 @@
 .container{
-    border: 2px solid green;
-    height: 95vh;
-    margin: 5px;
-}
-.greeting{
-    border-bottom: 2px solid green;
-}
-.main{
     display: flex;
-    height: 100%;
-    overflow: scroll;
-}
-.chat__users{
-    border-right: 2px solid green;
-    padding-right: 50px;
-    padding-left: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: 100%;
 }
 
-.chat__users p{
-    margin: 0;
+.auth{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.auth input{
+    height: 50px;
+    font-size: 20px;
+    border: 2px black solid;
+    border-bottom: none;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.auth button{
+    height: 50px;
+    background-color: 	black;
+    color: white;
+    font-size: 20px;
 }

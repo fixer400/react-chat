@@ -15,3 +15,12 @@ a {
   box-sizing: border-box;
 }
 
+body{
+  /*background-color: #3cd12e*/
+}
+
+.app{
+  height: 95vh;
+  margin: 10px;
+}
+

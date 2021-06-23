@@ -16,8 +16,7 @@ let corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200
 }
-app.use(express.static(__dirname))
-app.use(cors(corsOptions));
+app.use(express.static(__dirname),cors(corsOptions))
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');

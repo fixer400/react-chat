@@ -1,8 +1,7 @@
-import Head from 'next/head'
-import Image from 'next/image'
+
 import { Component } from 'react'
 import Message from '../components/message'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
@@ -42,6 +41,7 @@ class Chat extends Component {
   }
   
   sendMessage(text, name) {
+    event.preventDefault();
     socket.emit('send message', {
       message: text,
       userName: name
@@ -52,20 +52,22 @@ class Chat extends Component {
   render () {
     return (
       <div className = {styles.container}>
-        <div className = {styles.greeting}><h2>hello {this.state.userName}</h2></div>
-        <div className = {styles.main}>
-            <div className = {styles.chat__users}>
+            <div className = {styles.users}>
+            <div className = {styles.greeting}><h2>{this.state.userName}</h2></div>
               <h2>Users:</h2>
               {this.state.usersList.map((user) => {              
               return (<p>{user.name}</p>)
             })}</div>
-            <div className = 'chat__main'>
-              <div className = 'chat__messages-list'>
+            <div className = {styles.main}>
+              <div className = {styles.messages}>
                 {this.state.messages.map((el) => {
                   return (<Message key = {el.key} message = {el.message} userName = {el.userName}/>)
                 })}
               </div>
-              <input onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>send</button>
+            <div className = {styles.action}>
+              <form onSubmit = {this.sendMessage}>
+                <input className = {styles.input} onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>SEND</button>
+              </form>
             </div>
         </div>
           

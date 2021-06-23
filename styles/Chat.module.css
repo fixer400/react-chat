@@ -1,0 +1,46 @@
+.container{
+    border: 2px solid black;
+    height: 100%;
+    display: flex;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.users{
+    background-color: black;
+    color: white;
+    border-right: 2px solid black;
+    padding-right: 50px;
+    padding-left: 10px;
+}
+
+.messages{
+    overflow: scroll;
+    height: 100%;
+    /*background-color: #03050f10;*/
+    background: url('../public/OJ1Wv26g4VM.jpg') no-repeat;
+    background-size: cover;
+}
+
+.messages::-webkit-scrollbar{
+    display: none;
+}
+
+.action input, .action button{
+    height: 50px;
+}
+
+.action button {
+    width: 5%;
+}
+
+.action input{
+    width: 95%;
+    padding-left: 5px;
+}
+
+
+

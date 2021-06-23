@@ -1,0 +1,7 @@
+.message{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.message__user-name{
+    font-size: 40px;
+}
