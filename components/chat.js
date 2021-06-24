@@ -1,5 +1,4 @@
-
-import { Component } from 'react'
+import React, { Component } from 'react'
 import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
@@ -16,12 +15,7 @@ class Chat extends Component {
       text: '',
       usersList : []
     }
-  
     this.handleChange = this.handleChange.bind(this);``
-  }
-
-  onChange(event){
-    this.state.usersList.registerListener(console.log('hui'))
   }
 
   handleChange(event) {
@@ -30,16 +24,16 @@ class Chat extends Component {
 
   componentDidMount() {
     console.log(this.state)
+    axios.get('http://localhost:3001/messages').then((response) => {this.setState({messages:response.data})})
     socket.emit ('set user', (this.state.userName))
     socket.on('get users', (users) => this.setState({usersList:users}))
-
     socket.on('get message',(data) => {
       console.log(data.userName)
       this.setState({messages:[...this.state.messages,{message:data.message,userName:data.userName}]})
       console.log(this.state)
     })
   }
-  
+
   sendMessage(text, name) {
     event.preventDefault();
     socket.emit('send message', {
@@ -55,13 +49,13 @@ class Chat extends Component {
             <div className = {styles.users}>
             <div className = {styles.greeting}><h2>{this.state.userName}</h2></div>
               <h2>Users:</h2>
-              {this.state.usersList.map((user) => {              
-              return (<p>{user.name}</p>)
+              {this.state.usersList.map((user,key) => {              
+              return (<p key = {key}>{user.name}</p>)
             })}</div>
             <div className = {styles.main}>
               <div className = {styles.messages}>
-                {this.state.messages.map((el) => {
-                  return (<Message key = {el.key} message = {el.message} userName = {el.userName}/>)
+                {this.state.messages.map((el,key) => {
+                  return (<Message key = {key} message = {el.message} userName = {el.userName}/>)
                 })}
               </div>
             <div className = {styles.action}>

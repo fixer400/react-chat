@@ -11,6 +11,7 @@ const io = new Server(server, {
 })
 
 let usersList = [];
+let messages = [];
 
 let corsOptions = {
   origin: 'http://localhost:3000',
@@ -23,8 +24,8 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/users', (req,res) => {
-  res.send(usersList)
+app.get('/messages', (req,res) => {
+  res.send(messages)
 })
 
 io.on('connection', (socket) => {
@@ -32,13 +33,16 @@ io.on('connection', (socket) => {
   let id = socket.id
 
   socket.on("send message", (data) => {
-    console.log(data)
+    messages.push({ 
+      userName:data.userName,
+      message:data.message,
+    })
     io.emit("get message", {
       userName:data.userName,
       message:data.message,
     })
   })
-
+  
   socket.on('set user', (name) => {
     console.log(name)
     usersList.push({name,id})
