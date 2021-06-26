@@ -7,14 +7,10 @@ class Home extends Component {
     super(props);
     this.state = {
       isAuth:false,
-      name:''
+      name:'',
+      roomName:''
     }
-    this.handleChange = this.handleChange.bind(this);``
     this.authenticate = this.authenticate.bind(this)
-  }
-
-  handleChange(event) {
-    this.setState({name: event.target.value});
   }
 
   authenticate(){
@@ -31,11 +27,15 @@ class Home extends Component {
       {!this.state.isAuth ? 
       <div className={styles.container}>
           <form className = {styles.auth} onSubmit = {this.authenticate}>
-            <input onChange = {this.handleChange} value = {this.state.name}></input><button onClick = {this.authenticate}>AUTH</button>
+            <h2>Room ID:</h2>
+            <input value = {this.state.roomName} onChange = {e => this.setState({roomName:e.target.value})}></input>
+            <h2>User Name:</h2>
+            <input value = {this.state.name} onChange = {e => this.setState({name:e.target.value})}></input>
+            <button onClick = {this.authenticate}>AUTH</button>
           </form>
       </div> 
         : 
-        <Chat userName = {this.state.name}/>}
+        <Chat userName = {this.state.name} roomName = {this.state.roomName}/>}
     </div>)
   }
 

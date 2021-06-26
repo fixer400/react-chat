@@ -11,27 +11,32 @@ class Chat extends Component {
     super(props);
     this.state = {
       userName: this.props.userName,
+      roomName: this.props.roomName,
       messages: [],
       text: '',
       usersList : []
     }
     this.handleChange = this.handleChange.bind(this);``
+    this.getMessages = this.getMessages.bind(this);``
   }
 
   handleChange(event) {
     this.setState({text: event.target.value});
   }
 
+  getMessages(){
+    axios.get('http://localhost:3001/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
+  }
+
   componentDidMount() {
     console.log(this.state)
-    axios.get('http://localhost:3001/messages').then((response) => {this.setState({messages:response.data})})
-    socket.emit ('set user', (this.state.userName))
+    socket.emit('join server', this.state.roomName)
+    let name = this.state.userName
+    let roomName = this.state.roomName
+    socket.emit ('set user', {name,roomName})
+    this.getMessages()
     socket.on('get users', (users) => this.setState({usersList:users}))
-    socket.on('get message',(data) => {
-      console.log(data.userName)
-      this.setState({messages:[...this.state.messages,{message:data.message,userName:data.userName}]})
-      console.log(this.state)
-    })
+    socket.on('get messages', this.getMessages)
   }
 
   sendMessage(text, name) {
@@ -48,6 +53,7 @@ class Chat extends Component {
       <div className = {styles.container}>
             <div className = {styles.users}>
             <div className = {styles.greeting}><h2>{this.state.userName}</h2></div>
+              <h2>{this.state.roomName}</h2>
               <h2>Users:</h2>
               {this.state.usersList.map((user,key) => {              
               return (<p key = {key}>{user.name}</p>)

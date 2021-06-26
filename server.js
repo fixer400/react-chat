@@ -11,7 +11,19 @@ const io = new Server(server, {
 })
 
 let usersList = [];
-let messages = [];
+let rooms = []
+
+class room{
+  constructor(roomName){
+    this.roomName = roomName;
+    this.users = [];
+    this.messages = [];
+  }
+}
+
+function findRoom(roomName) {
+  return rooms.find(room => room.roomName == roomName)
+}
 
 let corsOptions = {
   origin: 'http://localhost:3000',
@@ -24,34 +36,46 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/messages', (req,res) => {
-  res.send(messages)
+app.get('/messages/:roomid', (req,res) => {
+  console.log(req.params.roomid)
+  let currentRoomId = findRoom(req.params.roomid)
+  res.send(currentRoomId.messages)
 })
 
-io.on('connection', (socket) => {
 
+io.on('connection', (socket) => {
   let id = socket.id
+  let currentRoomId
+
+  socket.on('join server', (roomName) => {
+    socket.join(roomName);
+    currentRoomId = roomName
+    if (rooms.find(room => room.roomName == roomName) == undefined){
+      rooms.push(new room(roomName = roomName))
+    }
+    currentRoomId = findRoom(roomName)
+    console.log(currentRoomId)
+  })
 
   socket.on("send message", (data) => {
-    messages.push({ 
+    console.log(data)
+    currentRoomId.messages.push({
       userName:data.userName,
       message:data.message,
     })
-    io.emit("get message", {
-      userName:data.userName,
-      message:data.message,
-    })
+    io.to(currentRoomId.roomName).emit("get messages")
   })
   
-  socket.on('set user', (name) => {
-    console.log(name)
-    usersList.push({name,id})
-      io.emit('get users',usersList)
+  socket.on('set user', (data) => {
+    let name = data.name
+    currentRoomId.users.push({name,id})
+    io.to(currentRoomId.roomName).emit('get users',currentRoomId.users)
   })
 
   socket.on('disconnect', () => {
-    usersList = usersList.filter(user => user.id != socket.id)
-    io.emit('get users', usersList)
+    currentRoomId.users = currentRoomId.users.filter(user => user.id != socket.id)
+    console.log(currentRoomId)
+    io.to(currentRoomId.roomName).emit('get users', currentRoomId.users)
   })
 });
 
