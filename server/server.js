@@ -54,6 +54,8 @@ io.on('connection', (socket) => {
       message:data.message,
     })
     io.to(currentRoomId.roomName).emit("get messages")
+    currentRoomId.users.filter((user) => user.id != socket.id).forEach((user)=>io.to(user.id).emit('new message'))
+    //io.to(currentRoomId.roomName.map()).emit("new message")
   })
   
   socket.on('set user', (data) => {

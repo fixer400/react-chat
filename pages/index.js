@@ -14,10 +14,14 @@ class Home extends Component {
     this.authenticate = this.authenticate.bind(this)
   }
 
-  authenticate(){
+  authenticate(event){
     if((this.state.name != '')&&(this.state.roomName != '')){
       this.setState({isAuth:true})
       this.setState({validation:false})
+      console.log(event)
+      if (!window.audioHandler){
+        window.audioHandler = new Audio('/fart_with_extra_reverb.mp3')
+      }
     }
     else{
       alert('Поле, не может быть пустым')

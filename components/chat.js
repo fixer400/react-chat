@@ -3,8 +3,7 @@ import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-
-const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com')
+const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com/')
 
 class Chat extends Component {
   constructor(props) {
@@ -35,9 +34,11 @@ class Chat extends Component {
     console.log(this.el)
   }
 
+
   subscribeSockets(){
     socket.on('get users', (users) => this.setState({usersList:users}))
     socket.on('get messages', this.getMessages)
+    socket.on('new message', () => {window.audioHandler.play()})
   }
 
   joinServer(){
