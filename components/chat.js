@@ -86,7 +86,7 @@ class Chat extends Component {
               </div>
             <div className = {styles.action}>
               <form onSubmit = {this.sendMessage}>
-                <input className = {styles.input} onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>SEND</button>
+                <input maxlength="50" className = {styles.input} onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>SEND</button>
               </form>
             </div>
         </div>

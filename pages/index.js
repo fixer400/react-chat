@@ -31,9 +31,9 @@ class Home extends Component {
       <div className={styles.container}>
           <form className = {styles.auth} onSubmit = {this.authenticate}>
             <h2>Room ID:</h2>
-            <input className = {this.state.validation ? styles.auth__error:''} value = {this.state.roomName} onChange = {e => this.setState({roomName:e.target.value})}></input>
+            <input maxlength="10" className = {this.state.validation ? styles.auth__error:''} value = {this.state.roomName} onChange = {e => this.setState({roomName:e.target.value})}></input>
             <h2>User Name:</h2>
-            <input value = {this.state.name} onChange = {e => this.setState({name:e.target.value})}></input>
+            <input maxlength="10" value = {this.state.name} onChange = {e => this.setState({name:e.target.value})}></input>
             <button onClick = {this.authenticate}>AUTH</button>
           </form>
       </div> 
