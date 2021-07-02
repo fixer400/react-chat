@@ -20,6 +20,10 @@
     text-align: center;
 }
 
+.auth__error{
+    background-color: red;
+}
+
 .auth button{
     height: 50px;
     background-color: 	black;

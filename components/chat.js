@@ -4,7 +4,7 @@ import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io ('http://localhost:3001')
+const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com')
 
 class Chat extends Component {
   constructor(props) {
@@ -18,6 +18,8 @@ class Chat extends Component {
     }
     this.handleChange = this.handleChange.bind(this);``
     this.getMessages = this.getMessages.bind(this);``
+    this.joinServer = this.joinServer.bind(this);``
+    this.subscribeSockets = this.subscribeSockets.bind(this);``
   }
 
   handleChange(event) {
@@ -25,27 +27,44 @@ class Chat extends Component {
   }
 
   getMessages(){
-    axios.get('http://localhost:3001/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
+    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
   }
 
-  componentDidMount() {
-    console.log(this.state)
-    socket.emit('join server', this.state.roomName)
-    let name = this.state.userName
-    let roomName = this.state.roomName
-    socket.emit ('set user', {name,roomName})
-    this.getMessages()
+  scrollToBottom(){
+    this.el.scrollIntoView({ behavior: "smooth" });
+    console.log(this.el)
+  }
+
+  subscribeSockets(){
     socket.on('get users', (users) => this.setState({usersList:users}))
     socket.on('get messages', this.getMessages)
   }
 
+  joinServer(){
+    let name = this.state.userName
+    let roomName = this.state.roomName
+    socket.emit('join server', this.state.roomName)
+    socket.emit ('set user', {name,roomName})
+  }
+
+  componentDidMount() {
+    this.joinServer()
+    this.subscribeSockets()
+    this.getMessages()
+  }
+
   sendMessage(text, name) {
-    event.preventDefault();
+    if(this.state.text !=''){
+      event.preventDefault();
     socket.emit('send message', {
       message: text,
       userName: name
     })
     this.setState({text:''})
+    }
+    else{
+      event.preventDefault();
+    }
   }
 
   render () {
@@ -53,7 +72,7 @@ class Chat extends Component {
       <div className = {styles.container}>
             <div className = {styles.users}>
             <div className = {styles.greeting}><h2>{this.state.userName}</h2></div>
-              <h2>{this.state.roomName}</h2>
+              <h2>Room:{this.state.roomName}</h2>
               <h2>Users:</h2>
               {this.state.usersList.map((user,key) => {              
               return (<p key = {key}>{user.name}</p>)
@@ -63,6 +82,7 @@ class Chat extends Component {
                 {this.state.messages.map((el,key) => {
                   return (<Message key = {key} message = {el.message} userName = {el.userName}/>)
                 })}
+                <div></div>
               </div>
             <div className = {styles.action}>
               <form onSubmit = {this.sendMessage}>

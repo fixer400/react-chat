@@ -4,9 +4,18 @@ class Message extends React.Component{
     constructor(props){
         super(props);
     }
+
+    componentDidMount(){
+        this.scrollToBottom()
+    }
+
+    scrollToBottom = () => {
+        this.messagesEndRef.scrollIntoView({ behavior: "smooth" })
+      }
+
     render(){
         return(
-            <div className = {styles.message}>
+            <div ref={(messagesEndRef) => this.messagesEndRef = messagesEndRef} className = {styles.message}>
                 <h3 className = 'message__user-name'>{this.props.userName}:</h3>
                 <p className = 'message__text'>{this.props.message}</p>
             </div>

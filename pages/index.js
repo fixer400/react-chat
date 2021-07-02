@@ -8,16 +8,19 @@ class Home extends Component {
     this.state = {
       isAuth:false,
       name:'',
-      roomName:''
+      roomName:'',
+      validation:false
     }
     this.authenticate = this.authenticate.bind(this)
   }
 
   authenticate(){
-    if(this.state.name != ''){
+    if((this.state.name != '')&&(this.state.roomName != '')){
       this.setState({isAuth:true})
+      this.setState({validation:false})
     }
     else{
+      alert('Поле, не может быть пустым')
     }
   }
 
@@ -28,7 +31,7 @@ class Home extends Component {
       <div className={styles.container}>
           <form className = {styles.auth} onSubmit = {this.authenticate}>
             <h2>Room ID:</h2>
-            <input value = {this.state.roomName} onChange = {e => this.setState({roomName:e.target.value})}></input>
+            <input className = {this.state.validation ? styles.auth__error:''} value = {this.state.roomName} onChange = {e => this.setState({roomName:e.target.value})}></input>
             <h2>User Name:</h2>
             <input value = {this.state.name} onChange = {e => this.setState({name:e.target.value})}></input>
             <button onClick = {this.authenticate}>AUTH</button>
