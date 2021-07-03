@@ -20,7 +20,7 @@ class Home extends Component {
       this.setState({validation:false})
       console.log(event)
       if (!window.audioHandler){
-        window.audioHandler = new Audio('/door-stuck-door-stuck.mp3')
+        window.audioHandler = new Audio('/Bruh - Sound (mp3cut.net).mp3')
       }
     }
     else{
