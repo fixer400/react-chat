@@ -20,7 +20,7 @@ class Home extends Component {
       this.setState({validation:false})
       console.log(event)
       if (!window.audioHandler){
-        window.audioHandler = new Audio('/fart_with_extra_reverb.mp3')
+        window.audioHandler = new Audio('https://www.myinstants.com/instant/door-stuck-door-stuck/embed/')
       }
     }
     else{
