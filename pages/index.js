@@ -30,7 +30,7 @@ class Home extends Component {
       this.setState({validation:false})
       console.log(event)
       if (!window.audioHandler){
-        window.audioHandler = new Audio('/fart_with_extra_reverb.mp3')
+        window.audioHandler = new Audio('/Bruh.mp3')
       }
     }
     else{
