@@ -28,7 +28,7 @@ class Chat extends Component {
   }
 
   getMessages(){
-    axios.get('http://localhost:3001/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
+    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
   }
 
   scrollToBottom(){
