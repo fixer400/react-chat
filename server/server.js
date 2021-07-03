@@ -37,6 +37,10 @@ app.get('/messages/:roomid', (req,res) => {
   let currentRoomId = findRoom(req.params.roomid)
   res.send(currentRoomId.messages)
 })
+
+app.get('/rooms', (req,res) => {
+  res.send(rooms)
+})
 //Conncetion to sockets
 io.on('connection', (socket) => {
   let currentRoomId
@@ -46,6 +50,7 @@ io.on('connection', (socket) => {
       rooms.push(new room(roomName = roomName))
     }
     currentRoomId = findRoom(roomName)
+    currentRoomId.users.filter((user) => user.id != socket.id).forEach((user) => io.to(user.id).emit('new user'))
   })
 
   socket.on("send message", (data) => {
@@ -54,8 +59,7 @@ io.on('connection', (socket) => {
       message:data.message,
     })
     io.to(currentRoomId.roomName).emit("get messages")
-    currentRoomId.users.filter((user) => user.id != socket.id).forEach((user)=>io.to(user.id).emit('new message'))
-    //io.to(currentRoomId.roomName.map()).emit("new message")
+    currentRoomId.users.filter((user) => user.id != socket.id).forEach((user) => io.to(user.id).emit('new message'))
   })
   
   socket.on('set user', (data) => {
@@ -67,9 +71,15 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     if (currentRoomId != undefined) {
+      //Delete user in room on leave
       currentRoomId.users = currentRoomId.users.filter(user => user.id != socket.id)
-      console.log(currentRoomId)
+      //
       io.to(currentRoomId.roomName).emit('get users', currentRoomId.users)
+      //Delete room on all users leave
+      if (currentRoomId.users.length == 0){
+        rooms = rooms.filter((room) => room.name != currentRoomId.name)
+      }
+      //
     }
   })
 });

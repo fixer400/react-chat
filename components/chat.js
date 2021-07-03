@@ -3,7 +3,7 @@ import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com/')
+const socket = io ('http://localhost:3001')
 
 class Chat extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Chat extends Component {
   }
 
   getMessages(){
-    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
+    axios.get('http://localhost:3001/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
   }
 
   scrollToBottom(){
@@ -34,11 +34,11 @@ class Chat extends Component {
     console.log(this.el)
   }
 
-
   subscribeSockets(){
     socket.on('get users', (users) => this.setState({usersList:users}))
     socket.on('get messages', this.getMessages)
-    socket.on('new message', () => {window.audioHandler.play()})
+    socket.on('new message', () => {new Audio('/Bruh.mp3').play()})
+    socket.on('new user' , () => {new Audio('/discord-sounds.mp3').play()})
   }
 
   joinServer(){
@@ -83,7 +83,6 @@ class Chat extends Component {
                 {this.state.messages.map((el,key) => {
                   return (<Message key = {key} message = {el.message} userName = {el.userName}/>)
                 })}
-                <div></div>
               </div>
             <div className = {styles.action}>
               <form onSubmit = {this.sendMessage}>
@@ -91,7 +90,6 @@ class Chat extends Component {
               </form>
             </div>
         </div>
-          
       </div>
     )
   }
