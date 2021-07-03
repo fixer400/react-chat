@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   getRoomsList(){
-    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/rooms').then((response) => {this.setState({roomsList:response.data})})
+    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/rooms/').then((response) => {this.setState({roomsList:response.data})})
   }
 
   componentDidMount(){
