@@ -3,7 +3,7 @@ import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-const socket = io ('http://localhost:3001')
+const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com')
 
 class Chat extends Component {
   constructor(props) {
