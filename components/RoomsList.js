@@ -10,7 +10,7 @@ class RoomsList extends React.Component{
     }
 
     getRoomsList(){
-        axios.get('http://localhost:3001/rooms').then((response) => {this.setState({roomsList:response.data})})
+        axios.get('https://react-chat-for-bingo-bongo.vercel.app//rooms').then((response) => {this.setState({roomsList:response.data})})
       }
 
     componentDidMount(){

@@ -15,15 +15,6 @@ class Home extends Component {
     this.authenticate = this.authenticate.bind(this)
   }
 
-
-  getRoomsList(){
-    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/rooms').then((response) => {this.setState({roomsList:response.data})})
-  }
-
-  componentDidMount(){
-    this.getRoomsList();
-  }
-
   authenticate(event){
     if((this.state.name != '')&&(this.state.roomName != '')){
       this.setState({isAuth:true})
