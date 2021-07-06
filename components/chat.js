@@ -3,9 +3,7 @@ import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-
-const socket = io ('https://react-chat-for-bingo-bongo.herokuapp.com')
-
+const socket = io ('http://localhost:3001')
 
 class Chat extends Component {
   constructor(props) {
@@ -74,8 +72,8 @@ class Chat extends Component {
     return (
       <div className = {styles.container}>
             <div className = {styles.users}>
-            <div className = {styles.greeting}><h2>{this.state.userName}</h2></div>
               <h2>Room:{this.state.roomName}</h2>
+              <h2>{this.state.userName}</h2>
               <h2>Users:</h2>
               {this.state.usersList.map((user,key) => {              
               return (<p key = {key}>{user.name}</p>)
@@ -88,7 +86,7 @@ class Chat extends Component {
               </div>
             <div className = {styles.action}>
               <form onSubmit = {this.sendMessage}>
-                <input maxlength="50" className = {styles.input} onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>SEND</button>
+                <input maxLength = "200" className = {styles.input} onChange = {this.handleChange} value = {this.state.text}></input><button onClick = {() => this.sendMessage(this.state.text, this.state.userName)}>SEND</button>
               </form>
             </div>
         </div>

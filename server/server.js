@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
       rooms.push(new room(roomName = roomName))
     }
     currentRoomId = findRoom(roomName)
+    //Send notification abou new user
     currentRoomId.users.filter((user) => user.id != socket.id).forEach((user) => io.to(user.id).emit('new user'))
   })
 
@@ -63,9 +64,7 @@ io.on('connection', (socket) => {
   })
   
   socket.on('set user', (data) => {
-    let name = data.name
-    let id = socket.id
-    currentRoomId.users.push({name,id})
+    currentRoomId.users.push({name:data.name,id:socket.id})
     io.to(currentRoomId.roomName).emit('get users',currentRoomId.users)
   })
 
@@ -75,9 +74,10 @@ io.on('connection', (socket) => {
       currentRoomId.users = currentRoomId.users.filter(user => user.id != socket.id)
       //
       io.to(currentRoomId.roomName).emit('get users', currentRoomId.users)
-      //Delete room on all users leave
+      //Delete room when all users leave
       if (currentRoomId.users.length == 0){
-        rooms = rooms.filter((room) => room.name != currentRoomId.name)
+        rooms = rooms.filter((room) => room.roomName != currentRoomId.roomName)
+        console.log(rooms)
       }
       //
     }

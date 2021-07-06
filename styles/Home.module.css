@@ -20,6 +20,11 @@
     text-align: center;
 }
 
+.auth input::-webkit-outer-spin-button,
+.auth input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .auth__error{
     background-color: red;
 }
