@@ -11,7 +11,6 @@ class RoomsList extends React.Component{
     }
 
     getRoomsList(){
-        console.log(Host.Name)
         axios.get(Host.Name+'/rooms').then((response) => {this.setState({roomsList:response.data})})
       }
 

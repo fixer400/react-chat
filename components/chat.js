@@ -6,6 +6,7 @@ import axios from 'axios'
 import Host from '../HostAdress.json'
 const socket = io (Host.Name)
 
+
 class Chat extends Component {
   constructor(props) {
     super(props);
