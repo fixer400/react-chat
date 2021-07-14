@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import styles from '../styles/RoomsList.module.css'
+import Host from '../HostAdress.json'
 class RoomsList extends React.Component{
     constructor(props){
         super(props);
@@ -10,7 +11,8 @@ class RoomsList extends React.Component{
     }
 
     getRoomsList(){
-        axios.get('https://react-chat-for-bingo-bongo.vercel.app//rooms').then((response) => {this.setState({roomsList:response.data})})
+        console.log(Host.Name)
+        axios.get(Host.Name+'/rooms').then((response) => {this.setState({roomsList:response.data})})
       }
 
     componentDidMount(){

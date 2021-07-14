@@ -11,7 +11,7 @@ const io = new Server(server, {
   }
 })
 let corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://react-chat-for-bingo-bongo.vercel.app/'],
   optionsSuccessStatus: 200
 }
 let rooms = []

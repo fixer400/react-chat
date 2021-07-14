@@ -3,7 +3,8 @@ import Message from '../components/message'
 import styles from '../styles/Chat.module.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-const socket = io ('http://localhost:3001')
+import Host from '../HostAdress.json'
+const socket = io (Host.Name)
 
 class Chat extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Chat extends Component {
   }
 
   getMessages(){
-    axios.get('https://react-chat-for-bingo-bongo.herokuapp.com/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
+    axios.get(Host.Name + '/messages/'+this.state.roomName).then((response) => {this.setState({messages:response.data})})
   }
 
   scrollToBottom(){
